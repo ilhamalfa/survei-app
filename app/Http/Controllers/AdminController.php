@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -16,4 +17,23 @@ class AdminController extends Controller
             'datas' => $datas
         ]);
     }
+
+    public function store_operator(Request $request){
+        $validate = $request->validate([
+            'name' => 'required',
+            'nomor_telp' => 'required|unique:users',
+            'email' => 'required|unique:users|email',
+            'username' => 'required|unique:users',
+            'password' => 'required|min:8|confirmed'
+        ]);
+
+        $validate['role'] = 'operator';
+        $validate['password'] = Hash::make($request->password);
+
+        User::create($validate);
+
+        return redirect()->back();
+    }
+
+    // 1. End (Pengaturan Akun)
 }

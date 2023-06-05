@@ -9,7 +9,7 @@
 
                 <div class="card-body">
                     <!-- Start Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                    <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#tambahModal">
                         Tambah Operator Unit
                     </button>
                     <!-- End Button trigger modal -->
@@ -22,34 +22,64 @@
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Operator Unit</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <form action="">
+                                <form action="{{ url('pengaturan-akun/store-akun') }}" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
                                         <div class="mb-3">
                                             <label class="form-label">Nama Perangkat Daerah</label>
-                                            <input type="text" name="name" class="form-control" placeholder="Masukkan Nama Perangkat Daerah">
+                                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Masukkan Nama Perangkat Daerah" value="{{ old('name') }}">
+                                            @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Nomor Telepon</label>
-                                            <input type="number" name="nomor_telp" class="form-control" placeholder="Masukkan Nomor Telepon">
+                                            <input type="number" name="nomor_telp" class="form-control @error('nomor_telp') is-invalid @enderror" placeholder="Masukkan Nomor Telepon" value="{{ old('nomor_telp') }}">
+                                            @error('nomor_telp')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">E-mail</label>
-                                            <input type="email" name="email" class="form-control" placeholder="Masukkan E-mail">
+                                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan E-mail" value="{{ old('email') }}">
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Username</label>
-                                            <input type="text" name="username" class="form-control" placeholder="Masukkan Username">
+                                            <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" placeholder="Masukkan Username" value="{{ old('username') }}">
+                                            @error('username')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" placeholder="Masukkan Password">
+                                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan Password">
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Password Confirm</label>
+                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Masukkan Password Kembali">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -59,6 +89,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Unit</th>
                                 <th>Nama Perangkat Daerah</th>
                                 <th>Nomor Telepon</th>
                                 <th>Email</th>
@@ -69,12 +100,22 @@
                         <tbody>
                             @foreach ($datas as $data)
                             <tr>
-                                <th>{{ $loop->iteration }}</th>
-                                <th>{{ $data->name }}</th>
-                                <th>{{ $data->nomor_telp }}</th>
-                                <th>{{ $data->email }}</th>
-                                <th>{{ $data->username }}</th>
-                                <th>Aksi</th>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if ($data->unit == NULL)
+                                        <i>(Profil Unit Belum Ditambah)</i>
+                                    @else
+                                        {{ $data->unit->nama_unit }}
+                                    @endif
+                                </td>
+                                <td>{{ $data->name }}</td>
+                                <td>{{ $data->nomor_telp }}</td>
+                                <td>{{ $data->email }}</td>
+                                <td>{{ $data->username }}</td>
+                                <td>
+                                    <a href="" class="btn btn-warning">Edit</a>
+                                    <a href="" class="btn btn-danger">Hapus</a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

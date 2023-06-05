@@ -24,3 +24,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('pengaturan-akun', [AdminController::class, 'pengaturan_akun']);
+
+Route::post('pengaturan-akun/store-akun', [AdminController::class, 'store_operator']);
