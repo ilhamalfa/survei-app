@@ -35,5 +35,50 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function update_operator($id, Request $request){
+        $data = User::find($id);
+
+        if(isset($request->password)){
+            if($request->no_telp == $data->no_telp || $request->email == $data->email || $request->username == $data->username){
+                $validate = $request->validate([
+                    'name' => 'required',
+                    'nomor_telp' => 'required',
+                    'email' => 'required|email',
+                    'username' => 'required',
+                    'password' => 'required|min:8|confirmed'
+                ]);
+            }else{
+                $validate = $request->validate([
+                    'name' => 'required',
+                    'nomor_telp' => 'required|unique:users',
+                    'email' => 'required|unique:users|email',
+                    'username' => 'required|unique:users',
+                    'password' => 'required|min:8|confirmed'
+                ]);
+            }
+            $validate['password'] = Hash::make($request->password);
+        }else{
+            if($request->no_telp == $data->no_telp || $request->email == $data->email || $request->username == $data->username){
+                $validate = $request->validate([
+                    'name' => 'required',
+                    'nomor_telp' => 'required',
+                    'email' => 'required|email',
+                    'username' => 'required',
+                ]);
+            }else{
+                $validate = $request->validate([
+                    'name' => 'required',
+                    'nomor_telp' => 'required|unique:users',
+                    'email' => 'required|unique:users|email',
+                    'username' => 'required|unique:users',
+                ]);
+            }
+        }
+
+        $data->update($validate);
+
+        return redirect()->back();
+    }
+
     // 1. End (Pengaturan Akun)
 }

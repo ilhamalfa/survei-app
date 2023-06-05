@@ -26,3 +26,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('pengaturan-akun', [AdminController::class, 'pengaturan_akun']);
 
 Route::post('pengaturan-akun/store-akun', [AdminController::class, 'store_operator']);
+
+Route::post('pengaturan-akun/update-akun/{id}', [AdminController::class, 'update_operator']);
