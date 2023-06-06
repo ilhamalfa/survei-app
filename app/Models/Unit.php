@@ -9,7 +9,9 @@ class Unit extends Model
 {
     use HasFactory;
 
-    public function operator(){
-        return $this->hasOne(User::class, 'operator_id');
+    protected $guarded = ['id'];
+
+    public function user(){
+        return $this->hasOne(User::class);
     }
 }

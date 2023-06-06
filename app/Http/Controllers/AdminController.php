@@ -13,7 +13,7 @@ class AdminController extends Controller
     public function pengaturan_akun(){
         $datas = User::where('role', '!=', 'admin')->get();
         
-        return view('pengaturan-akun', [
+        return view('admin.pengaturan-akun', [
             'datas' => $datas
         ]);
     }
@@ -81,4 +81,12 @@ class AdminController extends Controller
     }
 
     // 1. End (Pengaturan Akun)
+
+    // 2. Start (Daftar Unit)
+
+    public function daftar_unit(){
+
+    }
+
+    // 2. End (Daftar Unit)
 }
