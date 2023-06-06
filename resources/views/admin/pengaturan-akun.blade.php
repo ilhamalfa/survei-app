@@ -105,10 +105,10 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                @if ($data->relation)
-                                    {{ $data->unit->nama_unit }}
+                                @if ($data->unit == Null)
+                                    (Data Unit Belum Ada)
                                 @else
-                                    Data Belum Ada
+                                    {{ $data->unit->nama_unit }}
                                 @endif
                             </td>
                             <td>{{ $data->name }}</td>

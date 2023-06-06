@@ -42,4 +42,6 @@ Route::get('profil-unit', [OperatorController::class, 'profil_unit']);
 
 Route::post('profil-unit/store', [OperatorController::class, 'store_profil_unit']);
 
+Route::post('profil-unit/update/{id}', [OperatorController::class, 'update_profil_unit']);
+
 // Operator End

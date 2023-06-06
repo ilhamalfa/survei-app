@@ -28,7 +28,7 @@ class OperatorController extends Controller
     public function store_profil_unit(Request $request){
         $validate = $request->validate([
             'foto_kepala_unit' => 'required|image',
-            'nama_unit' => 'required',
+            'nama_unit' => 'required|unique:units',
             'nomor_telp_unit' => 'required|unique:units',
             'email_unit' => 'required|unique:units',
         ]);
@@ -46,6 +46,54 @@ class OperatorController extends Controller
         $operator->update([
             'unit_id' => $data->id
         ]);
+
+        return redirect()->back();
+    }
+
+    public function update_profil_unit($id, Request $request){
+        $data = Unit::find($id);
+
+        if(isset($request->foto_kepala_unit)){
+            if($request->no_telp_unit == $data->no_telp_unit || $request->email_unit == $data->email_unit || $request->nama_unit == $data->nama_unit){
+                $validate = $request->validate([
+                    'foto_kepala_unit' => 'required|image',
+                    'nama_unit' => 'required',
+                    'nomor_telp_unit' => 'required',
+                    'email_unit' => 'required',
+                ]);
+            }else{
+                $validate = $request->validate([
+                    'foto_kepala_unit' => 'required|image',
+                    'nama_unit' => 'required|unique:units',
+                    'nomor_telp_unit' => 'required|unique:units',
+                    'email_unit' => 'required|unique:units',
+                ]);
+            }
+
+            if(is_file('storage/' . $data->foto_kepala_unit)){
+                unlink('storage/' . $data->foto_kepala_unit);
+            }
+
+            $extension = $request->file('foto_kepala_unit')->extension();
+            $nama_gambar = $request->nama_unit . '-' . now()->timestamp. '.' . $extension;
+            $validate['foto_kepala_unit'] = $request->file('foto_kepala_unit')->storeAs('Foto Kepala Unit', $nama_gambar);
+        }else{
+            if($request->no_telp_unit == $data->no_telp_unit || $request->email_unit == $data->email_unit || $request->nama_unit == $data->nama_unit){
+                $validate = $request->validate([
+                    'nama_unit' => 'required',
+                    'nomor_telp_unit' => 'required',
+                    'email_unit' => 'required',
+                ]);
+            }else{
+                $validate = $request->validate([
+                    'nama_unit' => 'required|unique:units',
+                    'nomor_telp_unit' => 'required|unique:units',
+                    'email_unit' => 'required|unique:units',
+                ]);
+            }
+        }
+
+        $data->update($validate);
 
         return redirect()->back();
     }
