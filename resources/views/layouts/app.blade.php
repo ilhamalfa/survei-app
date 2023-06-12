@@ -40,13 +40,11 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a href="{{ url('kuisioner') }}" class="nav-link">Kuisioner</a>
                                 </li>
-                            @endif
-
-                            @if (Route::has('register'))
+                            
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
                         @else
@@ -85,6 +83,38 @@
 
     {{-- script --}}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
+    {{-- Ajax --}}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script>
+        $(function (){
+            $.ajaxSetup({
+                headers: {  'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
+            });
+        });
+
+
+    $(function(){
+        $('#unit').on('change', function(){
+            let id_unit = $('#unit').val();
+
+            $.ajax({
+                type : 'POST',
+                url : "/get-layanan",
+                data : {id_unit:id_unit},
+                cache : false,
+
+                success:function(msg){
+                    $('#layanan').html(msg);
+                },
+                error: function(data){
+                    console.log('error : ', data)
+                },
+            })
+        })
+    });
+    </script>
 </body>
 </html>

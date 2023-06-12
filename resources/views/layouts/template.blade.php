@@ -19,6 +19,10 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 </head>
 
@@ -27,9 +31,11 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        @include('layouts.sidebar')
-        <!-- End of Sidebar -->
+        @auth
+            <!-- Sidebar -->
+            @include('layouts.sidebar')
+            <!-- End of Sidebar -->
+        @endauth
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -39,17 +45,31 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
+                    @guest
+                    <a class="navbar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
+                        <div class="sidebar-brand-icon">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                        </div>
+                        <div class="sidebar-brand-text mx-3">Survei-App</div>
+                    </a>
+                    @endguest
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
+                        @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('kuisioner') }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600">Kuisioner</span>
+                            </a>
+                        </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600">Login</span>
+                            </a>
+                        </li>
+                        @else
+                        <div class="topbar-divider d-none d-sm-block"></div>
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -80,7 +100,7 @@
                                 </a>
                             </div>
                         </li>
-
+                        @endguest
                     </ul>
 
                 </nav>
@@ -88,11 +108,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    @auth
                     @if (Auth::user()->role != 'admin' && Auth::user()->unit == NULL)
                     <div class="alert alert-warning" role="alert">
                         Data Unit Tidak Ditemukan, Tolong Isi Data Unit! <a href="{{ url('profil-unit') }}" class="font-weight-bold" style="color: inherit;">Klik Disini Untuk Mengisi Data Unit</a> 
                     </div>
                     @endif
+                    @endauth
 
                     @yield('main')
                 </div>
@@ -165,6 +187,38 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
+        {{-- Ajax --}}
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+        <script>
+            $(function (){
+                $.ajaxSetup({
+                    headers: {  'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
+                });
+            });
+    
+    
+        $(function(){
+            $('#unit').on('change', function(){
+                let id_unit = $('#unit').val();
+    
+                $.ajax({
+                    type : 'POST',
+                    url : "/get-layanan",
+                    data : {id_unit:id_unit},
+                    cache : false,
+    
+                    success:function(msg){
+                        $('#layanan').html(msg);
+                    },
+                    error: function(data){
+                        console.log('error : ', data)
+                    },
+                })
+            })
+        });
+        </script>
 
 </body>
 

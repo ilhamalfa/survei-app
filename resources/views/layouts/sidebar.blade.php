@@ -47,11 +47,18 @@
         Operator Menu
     </div>
 
-    <!-- Nav Item - Charts -->
+    <!-- Nav Item - Profil Unit -->
     <li class="nav-item @if (Request::is('profil-unit*')) active @endif">
         <a class="nav-link" href="{{ url('profil-unit') }}">
             <i class="fas fa-fw fa-sitemap"></i>
             <span>Profil Unit</span></a>
+    </li>
+
+    <!-- Nav Item - Master Komponen -->
+    <li class="nav-item @if (Request::is('master-komponen*')) active @endif">
+        <a class="nav-link" href="{{ url('master-komponen') }}">
+            <i class="fas fa-fw fa-list-alt "></i>
+            <span>Master Komponen</span></a>
     </li>
 
     <!-- Nav Item - Tables -->

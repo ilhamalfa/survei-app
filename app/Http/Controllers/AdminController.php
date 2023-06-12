@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Jawaban;
+use App\Models\JawabanGanda;
+use App\Models\SoalKuisioner;
+use App\Models\Unsur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -82,11 +86,78 @@ class AdminController extends Controller
 
     // 1. End (Pengaturan Akun)
 
-    // 2. Start (Daftar Unit)
+    // 2. Start (Unsur)
 
-    public function daftar_unit(){
+    public function store_unsur(Request $request){
+        $validate = $request->validate([
+            'unsur_skm' => 'required'
+        ]);
 
+        Unsur::create($validate);
+
+        return redirect()->back();
     }
 
-    // 2. End (Daftar Unit)
+    public function update_unsur($id, Request $request){
+        $data = Unsur::find($id);
+
+        $validate = $request->validate([
+            'unsur_skm' => 'required'
+        ]);
+
+        $data->update($validate);
+
+        return redirect()->back();
+    }
+
+    // 2. End (Unsur)
+
+    // 3. Start Jawaban 
+
+    public function store_jawaban(Request $request){
+        // dd($request->jawaban[0]);
+        $validate1 = $request->validate([
+            'jenis_jawaban' => 'required'
+        ]);
+
+        for($i = 0; $i < count($request->jawaban); $i++){
+            $validate2 = $request->validate([
+                'jawaban' => 'required',
+                'bobot' => 'required'
+            ]);
+        }
+
+        $insert = Jawaban::create($validate1);
+
+        for($i = 0; $i < count($request->jawaban); $i++){
+            JawabanGanda::create([
+                'jawaban' => $request->jawaban[$i],
+                'bobot' => $request->bobot[$i],
+                'jawaban_id' => $insert->id
+            ]);
+        }
+        // dd($insert->id);
+        
+        return redirect()->back();
+    }
+
+    // 3. End Jawaban
+
+    // 4. Start Soal Kuisioner
+
+    public function store_soal_kuisioner(Request $request){
+        $validate = $request->validate([
+            'pertanyaan' => 'required',
+            'unsur_id' => 'required'
+        ]);
+
+        // dd($request);
+
+        SoalKuisioner::create($validate);
+
+        return redirect()->back();
+    }
+
+    // 4. End Soal Kuisioner
+
 }

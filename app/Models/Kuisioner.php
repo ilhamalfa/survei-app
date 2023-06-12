@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
+class Kuisioner extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function user(){
-        return $this->hasOne(User::class);
-    }
-
-    public function survei(){
-        return $this->hasMany(Survei::class);
+    public function soalKuisioner(){
+        return $this->belongsTo(SoalKuisioner::class, 'soal_kuisioners_id');
     }
 }
