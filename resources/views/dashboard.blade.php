@@ -18,11 +18,11 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Earnings (Monthly)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                            Jumlah Seluruh Responden</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jml_responden . ' Orang' }}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
@@ -36,11 +36,11 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Earnings (Annual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                            Jumlah Unit</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jml_unit . ' Unit' }}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        <i class="fas fa-tasks fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
@@ -53,18 +53,11 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jumlah Layanan
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                            </div>
-                            <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar"
-                                        style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                </div>
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $jml_layanan . ' Layanan' }}</div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +70,7 @@
     </div>
 
     <!-- Pending Requests Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
+    {{-- <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -92,85 +85,67 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
-<!-- Content Row -->
 <div class="row">
-
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
+    <div class="col">
         <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div
-                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                        aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Rincian nilai tiap komponen Survei masing-masing Unit</h6>
             </div>
-            <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pie Chart -->
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div
-                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                        aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Unit</th>
+                            <th>NRR U1</th>
+                            <th>NRR U2</th>
+                            <th>NRR U3</th>
+                            <th>NRR U4</th>
+                            <th>NRR U5</th>
+                            <th>NRR U6</th>
+                            <th>NRR U7</th>
+                            <th>NRR U8</th>
+                            <th>NRR U9</th>
+                            <th>Jumlah NRR</th>
+                            <th>IKM</th>
+                            <th>Mutu Pelayanan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($sorted_rankings as $ranking)
+                            <tr>
+                                <th>{{ $loop->iteration }}</th>
+                                <th>{{ $ranking['unit'] }}</th>
+                                @for ($i = 0; $i < 9; $i++)
+                                <td>{{ number_format($ranking['NRR' . $i], 2) }}</td>
+                                @endfor
+                                <td>{{ number_format($ranking['nrr_total'], 2) }}</td>
+                                <td>{{ number_format($ranking['ikm'], 2) }}</td>
+                                <td>
+                                @if (number_format($ranking['ikm']) >= 25 && number_format($ranking['ikm']) <= 43.75 )
+                                        <h6 class="font-weight-bold">D</h6>  
+                                    @elseif (number_format($ranking['ikm']) >= 43.76 && number_format($ranking['ikm']) <= 62.50 )
+                                        <h6 class="font-weight-bold">C</h6>
+                                    @elseif (number_format($ranking['ikm']) >= 62.51 && number_format($ranking['ikm']) <= 81.25 )
+                                        <h6 class="font-weight-bold">B</h6>
+                                    @elseif (number_format($ranking['ikm']) >= 81.26 && number_format($ranking['ikm']) <= 100.0 )
+                                        <h6 class="font-weight-bold">A</h6>
+                                    @elseif (number_format($ranking['ikm']) == 0)
+                                        <h6 class="font-weight-bold text-secondary">Tidak Ditemukan</h6>
+                                @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Content Row -->
 <div class="row">
@@ -181,16 +156,18 @@
         <!-- Project Card Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi jumlah responden seluruh Unit</h6>
             </div>
             <div class="card-body">
-                <h4 class="small font-weight-bold">Server Migration <span
-                        class="float-right">20%</span></h4>
+                @foreach ($sorted_respondens as $responden)
+                <h4 class="small font-weight-bold">{{ $responden['unit'] . ' (' . $responden['jumlah_responden'] . ' Orang)' }} <span
+                    class="float-right">{{ number_format($responden['jumlah_responden_persen'], 2) . '%' }}</span></h4>
                 <div class="progress mb-4">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $responden['jumlah_responden_persen'] . '%' }}"
                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <h4 class="small font-weight-bold">Sales Tracking <span
+                @endforeach
+                {{-- <h4 class="small font-weight-bold">Sales Tracking <span
                         class="float-right">40%</span></h4>
                 <div class="progress mb-4">
                     <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
@@ -213,7 +190,7 @@
                 <div class="progress">
                     <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -292,19 +269,17 @@
         <!-- Illustrations -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Ranking dan Rekapitulasi perhitungan IKM seluruh Unit</h6>
             </div>
             <div class="card-body">
-                <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                        src="{{ asset('img/undraw_posting_photo.svg') }}" alt="...">
+                @foreach ($sorted_rankings as $ranking)
+                <h4 class="small font-weight-bold">{{ $loop->iteration . '. ' . $ranking['unit'] }} <span
+                    class="float-right">{{ number_format($ranking['ikm'], 2) }}</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $ranking['ikm'] . '%' }}"
+                        aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <p>Add some quality, svg illustrations to your project courtesy of <a
-                        target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                    constantly updated collection of beautiful svg images that you can use
-                    completely free and without attribution!</p>
-                <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                    unDraw &rarr;</a>
+                @endforeach
             </div>
         </div>
 

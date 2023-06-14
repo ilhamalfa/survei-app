@@ -11,7 +11,7 @@ class Responden extends Model
 
     protected $guarded = ['id'];
 
-    public function responden(){
+    public function survei(){
         return $this->hasOne(Survei::class);
     }
 }

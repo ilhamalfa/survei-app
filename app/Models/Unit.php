@@ -18,4 +18,8 @@ class Unit extends Model
     public function survei(){
         return $this->hasMany(Survei::class);
     }
+
+    public function layanan(){
+        return $this->hasMany(Layanan::class);
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\JawabanUser;
 use App\Models\Kuisioner;
 use App\Models\Layanan;
 use App\Models\Responden;
+use App\Models\SoalKuisioner;
 use App\Models\Survei;
 use App\Models\Unit;
 use Carbon\Carbon;
@@ -15,6 +16,92 @@ use Illuminate\Http\Request;
 
 class RespondenController extends Controller
 {
+    public function landingPage(){
+        $units = Unit::has('layanan')->get();
+        $jawabanUsers = JawabanUser::all();
+
+        $ranking = array();
+        $i = 0;
+
+        foreach($units as $unit){
+            for($a = 1; $a <= 9; $a++){
+                $jawabans[$unit->nama_unit][$a] = 0.0;
+                $hasilAkhir[$unit->nama_unit][$a] = 0.0;
+                $jml_survei[$unit->id] = 0;
+                $NRR[$unit->nama_unit] = 0.0;
+            }
+        }
+
+        foreach($jawabanUsers as $jwb){
+            $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] += $jwb->jawabanGanda->bobot;
+            
+            $hasilAkhir[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] = $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] / count(Survei::where('unit_id', $jwb->survei->unit_id)->get());
+            
+            $NRR[$jwb->survei->unit->nama_unit] =  array_sum($hasilAkhir[$jwb->survei->unit->nama_unit])/count(SoalKuisioner::all());
+        }
+
+        // dd($jawabans);
+
+        foreach ($units as $unit) {
+            $ranking[$i] = [
+                'unit' => $unit->nama_unit,
+                'ikm' => $NRR[$unit->nama_unit] * 25,
+            ];
+
+            $i++;
+        }
+
+        $sorted_rankings = collect($ranking)->sortByDesc('ikm');
+
+        // dd($sorted_rankings);
+
+        return view('responden.landing-page', [
+            'sorted_rankings' => $sorted_rankings
+        ]);
+    }
+
+    public function index(){
+        $units = Unit::all();
+        $jawabanUsers = JawabanUser::all();
+        $jml_soal = count(SoalKuisioner::all());
+        // $jml_survei = Survei::all();
+
+        // Inisialisasi
+        foreach($units as $unit){
+            for($i = 1; $i <= 9; $i++){
+                $jawabans[$unit->nama_unit][$i] = 0.0;
+                $hasilAkhir[$unit->nama_unit][$i] = 0.0;
+                $jml_survei[$unit->id] = 0;
+                $NRR[$unit->nama_unit] = 0.0;
+            }
+        }
+
+        foreach($jawabanUsers as $jwb){
+            $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] = $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] + $jwb->jawabanGanda->bobot;
+        }
+
+        foreach($jawabanUsers as $jwb){
+            // dd(count($jwb));
+            $jml_jwb[$jwb->survei->unit_id] = count(Survei::where('unit_id', $jwb->survei->unit_id)->get());
+            // dd($jml_jwb);
+            $hasilAkhir[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] = $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] / $jml_jwb[$jwb->survei->unit_id];
+        }
+
+        foreach($jawabanUsers as $jwb){
+            $NRR[$jwb->survei->unit->nama_unit] =  array_sum($hasilAkhir[$jwb->survei->unit->nama_unit])/$jml_soal;
+        }
+
+        // dd($hasilAkhir, $NRR);
+        
+        // dd($hasilAkhir);
+
+        return view('responden.landing-page', [
+            'hasil_akhir' => $hasilAkhir,
+            'units' => $units,
+            'NRR' => $NRR
+        ]);
+    }
+
     public function form_survey(){
         $units = Unit::all();
 

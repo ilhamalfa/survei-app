@@ -3,11 +3,6 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\RespondenController;
-use App\Models\JawabanGanda;
-use App\Models\JawabanUser;
-use App\Models\SoalKuisioner;
-use App\Models\Survei;
-use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,51 +16,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('test', function () {
-    return view('responden.landing-page');
-});
 
-Route::get('/', function () {
-    $units = Unit::all();
-    $jawabanUsers = JawabanUser::all();
-    $jml_soal = count(SoalKuisioner::all());
-    // $jml_survei = Survei::all();
 
-    // Inisialisasi
-    foreach($units as $unit){
-        for($i = 1; $i <= 9; $i++){
-            $jawabans[$unit->nama_unit][$i] = 0.0;
-            $hasilAkhir[$unit->nama_unit][$i] = 0.0;
-            $jml_survei[$unit->id] = 0;
-            $NRR[$unit->nama_unit] = 0.0;
-        }
-    }
-
-    foreach($jawabanUsers as $jwb){
-        $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] = $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] + $jwb->jawabanGanda->bobot;
-    }
-
-    foreach($jawabanUsers as $jwb){
-        // dd(count($jwb));
-        $jml_jwb[$jwb->survei->unit_id] = count(Survei::where('unit_id', $jwb->survei->unit_id)->get());
-        // dd($jml_jwb);
-        $hasilAkhir[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] = $jawabans[$jwb->survei->unit->nama_unit][$jwb->soal_kuisioners_id] / $jml_jwb[$jwb->survei->unit_id];
-    }
-
-    foreach($jawabanUsers as $jwb){
-        $NRR[$jwb->survei->unit->nama_unit] =  array_sum($hasilAkhir[$jwb->survei->unit->nama_unit])/$jml_soal;
-    }
-
-    // dd($hasilAkhir, $NRR);
-    
-    // dd($hasilAkhir);
-
-    return view('responden.landing-page', [
-        'hasil_akhir' => $hasilAkhir,
-        'units' => $units,
-        'NRR' => $NRR
-    ]);
-});
+Route::get('/', [RespondenController::class, 'landingPage']);
 
 Auth::routes();
 
@@ -114,6 +67,12 @@ Route::post('profil-unit/update/{id}', [OperatorController::class, 'update_profi
 Route::post('profil-unit/layanan/store', [OperatorController::class, 'store_jenis_layanan']);
 
 Route::post('profil-unit/layanan/update/{id}', [OperatorController::class, 'update_jenis_layanan']);
+
+// Menu Survei
+
+Route::get('menu-survei/', [OperatorController::class, 'menu_survei']);
+
+Route::get('survei-bulan/', [OperatorController::class, 'perbulan']);
 
 // Operator End
 
