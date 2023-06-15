@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Jawaban;
 use App\Models\JawabanGanda;
 use App\Models\JawabanUser;
+use App\Models\Layanan;
 use App\Models\SoalKuisioner;
 use App\Models\Survei;
 use App\Models\Unit;
@@ -89,6 +90,32 @@ class AdminController extends Controller
     }
 
     // 1. End (Pengaturan Akun)
+
+    public function daftar_unit(){
+        $units = Unit::all();
+        $daftar_layanan = array();
+        $i = 0;
+
+        foreach($units as $unit){
+            $layanans = Layanan::where('unit_id', $unit->id)->get();
+            
+            foreach($layanans as $layanan){
+                $daftar_layanan[$unit->nama_unit][$i] = $layanan->nama_layanan;
+                $i++;
+            }
+
+            if($i == count($layanans)){
+                $i = 0;
+            }
+        }
+
+        // dd($daftar_layanan['test'][0]);
+        
+        return view('admin.daftar-unit', [
+            'units' => $units,
+            'daftar_layanan' => $daftar_layanan
+        ]);
+    }
 
     // 2. Start (Unsur)
 

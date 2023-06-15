@@ -52,8 +52,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     // Menu Survei
     Route::get('data-survei/laporan-kuisioner/{id}', [AdminController::class, 'data_survei_responden']);
-
-    Route::get('data-survei/laporan-perbulan/{id}', [AdminController::class, 'data_survei_perbulan']);
 });
 // Admin End
 
@@ -67,6 +65,9 @@ Route::middleware(['auth', 'user-access:admin, operator'])->group(function () {
     Route::get('data-survei/laporan-kuisioner', [OperatorController::class, 'menu_survei']);
 
     Route::get('data-survei/laporan-perbulan', [OperatorController::class, 'perbulan']);
+
+    // Profil Unit
+    Route::get('profil-unit', [OperatorController::class, 'profil_unit']);
 });
 // Admin & Operator End
 
@@ -74,8 +75,6 @@ Route::middleware(['auth', 'user-access:admin, operator'])->group(function () {
 // Operator Start
 Route::middleware(['auth', 'user-access:operator'])->group(function () {
     // Tambah dan update profil
-    Route::get('profil-unit', [OperatorController::class, 'profil_unit']);
-
     Route::post('profil-unit/store', [OperatorController::class, 'store_profil_unit']);
 
     Route::post('profil-unit/update/{id}', [OperatorController::class, 'update_profil_unit']);

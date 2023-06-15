@@ -21,7 +21,9 @@ class OperatorController extends Controller
     // 1. Start (Profil Unit)
 
     public function profil_unit(){
-        if(Auth::user()->role == 'operator'){
+        if(Auth::user()->role == 'admin'){
+            return redirect('daftar-unit');
+        }
             $data = User::find(Auth::user()->id);
 
             if($data->unit != NULL){
@@ -37,9 +39,6 @@ class OperatorController extends Controller
                 ]);
             }
             // dd($data);
-        }else{
-            return redirect('daftar-unit');
-        }
     }
 
     public function store_profil_unit(Request $request){
@@ -295,6 +294,9 @@ class OperatorController extends Controller
     }
 
     public function perbulan(){
+        if(Auth::user()->role == 'admin'){
+            return redirect('data-survei/daftar-unit');
+        }
         $unit = Unit::find(Auth::user()->unit_id);
         $surveis = Survei::where('unit_id', Auth::user()->unit_id)->get();
         $hasil = array();

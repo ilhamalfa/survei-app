@@ -63,7 +63,7 @@
     </li>
 
     <!-- Nav Item - Profil Unit -->
-    <li class="nav-item @if (Request::is('profil-unit*')) active @endif">
+    <li class="nav-item @if (Request::is('profil-unit*') || Request::is('daftar-unit*')) active @endif">
         <a class="nav-link" href="{{ url('profil-unit') }}">
             <i class="fas fa-fw fa-sitemap"></i>
             <span>Profil Unit</span></a>
