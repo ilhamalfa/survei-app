@@ -227,6 +227,11 @@ class OperatorController extends Controller
     // End Komponen Master
 
     public function menu_survei(){
+        if(Auth::user()->role == 'admin'){
+            return redirect('data-survei/daftar-unit');
+        }
+
+        $unit = Unit::find(Auth::user()->unit_id);
         $surveis = Survei::where('unit_id', Auth::user()->unit_id)->get();
         $soal = SoalKuisioner::all();
         // $jawabanusers = JawabanUser::whereRelation('survei','unit_id',Auth::user()->unit_id)->get();
@@ -277,6 +282,7 @@ class OperatorController extends Controller
 
         // dd(array_sum($NRR_Tertimbang));
         return view('operator.menu-hasil-survei', [
+            'unit' => $unit,
             'jawabans' => $hasilJawaban,
             'jumlahNilai' => $jumlahNilai,
             'jumlah_soal' => count($soal),
@@ -289,6 +295,7 @@ class OperatorController extends Controller
     }
 
     public function perbulan(){
+        $unit = Unit::find(Auth::user()->unit_id);
         $surveis = Survei::where('unit_id', Auth::user()->unit_id)->get();
         $hasil = array();
         $hasil1 = array();
@@ -355,7 +362,8 @@ class OperatorController extends Controller
 
         // dd($hasil, $hasil_perbulan, $jumlah_perbulan);
 
-        return view('operator.perbulan', [
+        return view('operator.menu-hasil-perbulan', [
+            'unit' =>$unit,
             'unsurs' => $unsurs,
             'bulans' => $months,
             'hasil_perbulan' => $hasil_perbulan,

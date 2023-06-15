@@ -13,7 +13,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item @if (Request::is('home*')) active @endif">
-        <a class="nav-link" href="{{ 'home' }}">
+        <a class="nav-link" href="{{ url('home') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -47,6 +47,21 @@
         Operator Menu
     </div>
 
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item @if (Request::is('data-survei*')) active @endif">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Laporan</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('data-survei/laporan-kuisioner') }}">Laporan Responden</a>
+                <a class="collapse-item" href="{{ url('data-survei/laporan-perbulan') }}">Laporan Perbulan</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Nav Item - Profil Unit -->
     <li class="nav-item @if (Request::is('profil-unit*')) active @endif">
         <a class="nav-link" href="{{ url('profil-unit') }}">
@@ -59,13 +74,6 @@
         <a class="nav-link" href="{{ url('master-komponen') }}">
             <i class="fas fa-fw fa-list-alt "></i>
             <span>Master Komponen</span></a>
-    </li>
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
     </li>
 
     <!-- Divider -->
